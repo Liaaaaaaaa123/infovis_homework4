@@ -58,8 +58,14 @@ const Charts = () => {
 
 //Q1.2: Complete the xScaleBar and yScaleBar
 //Hint: use d3.scaleBand for xScaleBar
-    const xScaleBar = []
-    const yScaleBar = []
+    const xScaleBar = d3.scaleBand()
+    .domain(data.map(d => d.category)) // Assuming there's a 'category' field in data
+    .range([0, innerWidth])
+    .padding(0.1);
+
+    const yScaleBar = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.value)]) // Assuming there's a 'value' field in data
+    .range([innerHeightBar, 0]);
 
     const changeHandler = (event) => {
         setMonth(event.target.value);
@@ -97,5 +103,5 @@ const Charts = () => {
 }
 
 
-export default Charts
+export default Charts;
 

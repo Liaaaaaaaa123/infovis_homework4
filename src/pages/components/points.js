@@ -20,4 +20,4 @@ function Points(props) {
     }
 }
 
-export default Points
+export default Points;

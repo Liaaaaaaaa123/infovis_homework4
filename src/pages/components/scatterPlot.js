@@ -14,4 +14,4 @@ function ScatterPlot(props){
      </g> ) 
 }
 
-export default ScatterPlot
+export default ScatterPlot;
