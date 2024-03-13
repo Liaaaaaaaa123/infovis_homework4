@@ -1,8 +1,8 @@
 import React from "react";
 import { max } from 'd3';
 import { Points } from "./components/points";
-import { XAxis } from "./components/Xaxis";
-import { YAxis } from "./components/Yaxis";
+import { XAxis } from "./components/XAxis";
+import { YAxis } from "./components/YAxis";
 
 
 export function ScatterPlot(props){

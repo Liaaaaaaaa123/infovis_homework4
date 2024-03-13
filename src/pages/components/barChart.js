@@ -1,7 +1,7 @@
 import React from "react";
 import { max } from "d3";
-import { XAxis } from "./components/Xaxis";
-import { YAxis } from "./components/Yaxis";
+import { XAxis } from "./components/XAxis";
+import { YAxis } from "./components/YAxis";
 import { Bars } from './components/bars';
 
 export function BarChart (props) {
