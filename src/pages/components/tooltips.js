@@ -1,7 +1,9 @@
-function Tooltip(props) {
-    const {d, x, y} = props;
+import React from "react";
+
+export function Tooltip(props) {
+    const {d, left, top} = props;
     //console.log(d);
-    if (x === null|!d) {
+    if (left === null) {
         return <div></div>;
     } else {
         const divStyle = {
@@ -15,18 +17,16 @@ function Tooltip(props) {
             border: "0px",
             borderRadius: "8px",
             pointerEvents: "none",
-            left: `${x+10}px`,
-            top: `${y}px`
+            left: `${left+10}px`,
+            top: `${top}px`
         };
-        return (<div style={divStyle} >
+        return <div style={divStyle} >
             <p>{d.station}</p>
             <p>Trip durations:</p>
             <ul> 
             <li>End in: {d.tripdurationE}</li>
             <li>Start from: {d.tripdurationS}</li>
             </ul>
-            </div>)
+            </div>
     };  
 }
-
-export default Tooltip

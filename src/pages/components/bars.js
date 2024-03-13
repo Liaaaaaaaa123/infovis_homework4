@@ -1,20 +1,61 @@
+import React from "react";
 
+export function Bars(props){
+    //complete the getColor when you are asked to
+    const {data, xScale, yScale, barchart_height, selectedPoint, onMouseEnter, onMouseOut} = props;
+    const getColor = (d) => {
+        if (d.station === selectedPoint.station) {
+            return "red"
+        } else {
+            return "steelblue"
+        }
+    }
+    // const [selectedPoint, setSelectedPoint] = React.useState(null);
+    // const onMouseEnter = (d) => {
+    //     setSelectedPoint(d);
+    // };
 
-function Bars(props) {
-    const {data, xScale, yScale, height} = props;
-
-    //Note: 
-    //the if(data){...} means when data is not null, the component will return the bars; otherwise, it returns <g></g>
-    //we use the if ... else ... in this place so that the code can work with the SSR in Next.js;
-    if(data){
+    // const onMouseOut = () => {
+    //     setSelectedPoint(null);
+    // };
+    if (selectedPoint === null){
+    return <g>
+    {data.map(d => {
+        return <rect key={d.station.replace('&','').replace(/\s/g, '')} 
+        x={xScale(d.station)} 
+        y={yScale(d.start)} 
+        width = {xScale.bandwidth()} 
+        height = {barchart_height - yScale(d.start)}
+        fill={"steelblue"} 
+        stroke={"black"}
+        onMouseOver={()=>onMouseEnter(d)} onMouseOut={onMouseOut}
+        />
+    })}
+    </g>
+    }   
+    else{
         return <g>
-            {/* {task:
-                    1. remove this comments and put your code here
-                    2. pay attention to the height of the bars, it should be height-yScale(d.start)} */}
-            </g>
-    } else {
-        return <g></g>
+        {data.map(d => {
+            return <rect key={d.station.replace('&','').replace(/\s/g, '')} 
+            x={xScale(d.station)} 
+            y={yScale(d.start)} 
+            width = {xScale.bandwidth()} 
+            height = {barchart_height - yScale(d.start)}
+            fill={getColor(d)} 
+            stroke={"black"}
+            onMouseOver={()=>onMouseEnter(d)} onMouseOut={onMouseOut}
+            />
+        })}
+        {data.filter(d => d.index === selectedPoint.index).map(d => {
+            return <rect key={d.station.replace('&','').replace(/\s/g, '')} 
+            x={xScale(d.station)} 
+            y={yScale(d.start)} 
+            width = {xScale.bandwidth()} 
+            height = {barchart_height - yScale(d.start)}
+            fill={getColor(d)} 
+            stroke={"black"}
+            onMouseOver={()=>onMouseEnter(d)} onMouseOut={onMouseOut}/>
+        })}
+        </g>    
     }
 }
-
-export default Bars

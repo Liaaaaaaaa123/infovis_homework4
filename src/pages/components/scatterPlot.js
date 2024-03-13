@@ -1,19 +1,20 @@
 import React from "react";
 import { max } from 'd3';
-import { Points } from "./components/points";
-import { XAxis } from "./components/xAxis";
-import { YAxis } from "./components/yAxis";
+import { Scales } from "./scale";
+import { Points } from "./points";
+import { XAxis, YAxis } from "./axes";
 
-function ScatterPlot(props){
+
+export function ScatterPlot(props){
     const {data, offsetX, offsetY, width, height, selectedPoint, onMouseEnter, onMouseOut} = props;
+    const xScale = Scales.linear(0, max(data, (d)=> d.tripdurationS), 0, width);
     const yScale = Scales.linear(0, max(data, (d)=> d.tripdurationE), height, 0);
-    //task1: transform the <g> with the offsets so that the barchart can show properly 
-    //task2: import the components needed and uncomment the components in the return 
-    return <g>
-            <Points data={data} xScale={xScale} yScale={yScale} height={height} width={width} />
-            <YAxis yScale={yScale} height={height} axisLable={"Trip duration end in"}/>
-            <XAxis xScale={xScale} height={height} width={width} axisLable={"Trip duration start from"}/> */
+    
+    return <g transform={`translate(${offsetX}, ${offsetY})`}>
+            <Points data={data} xScale={xScale} yScale={yScale} width = {width} height = {height} 
+            selectedPoint={selectedPoint} onMouseEnter={onMouseEnter} onMouseOut={onMouseOut}/>
+            <YAxis axisLable={"Trip duration end in"} yScale={yScale} height={height}/>
+            <XAxis axisLable={"Trip duration start from"} chartType={"scatter"} xScale={xScale} height={height} width={width}/>
         </g>
+    
 }
-
-export default ScatterPlot
