@@ -11,37 +11,26 @@
 // - data: the data items
 // - xScale: the scale for the x coordinate
 // - yScale: the scale for the y coordinate
-import React from "react";
 
-export function XAxis (props) {
-    const { chartType, xScale, height, width, axisLable } = props;
-    if (chartType === "scatter") {
+
+
+
+function XAxis(props){
+    const { xScale, height, width, axisLable } = props;
+    //Note:
+    //1. XAxis works for two cases: the xScale is linear (i.e., scatter plot) and the xScalse is discrete (i.e., bar chart)
+    //2. you can use typeof(xScale.domain()[0]) to decide the return value
+    //3. if typeof(xScale.domain()[0]) is a number, xScale is a linear scale; if it is a string, it is a scaleBand.
+    
+    if(xScale) {
         return <g>
-            {<line x1={0} y1={height} x2={width} y2={height} stroke='black'/>}
-            {xScale.ticks().map(tickValue =>
-                <g key={tickValue} transform={`translate(${xScale(tickValue)}, ${height})`}>
-                    <line y2={10} stroke='black' />
-                    <text style={{textAnchor: 'middle', fontSize:'10px' }} y={20}>
-                        {tickValue}
-                    </text>
-                </g>
-            )}
-            <text style={{ textAnchor:'end', fontSize:'15px'}} transform={`translate(${width}, ${height-10})`}>
-                {axisLable}
-            </text>
+        {/* //the if(xScale){...} means when xScale is not null, the component will return the x-axis; otherwise, it returns <g></g>
+        //we use the if ... else ... in this place so that the code can work with the SSR in Next.js;
+        //all your code should be put in this block. Remember to use typeof check if the xScale is linear or discrete. */}
         </g>
-    }
-    if (chartType === "bar") {
-        return <g>
-            {<line x1={0} y1={height} x2={width} y2={height} stroke='black'/>}
-            {xScale.domain().map(tickValue =>
-                <g key={tickValue+'B'} transform={`translate(${xScale(tickValue)}, 0)`}>
-                    <line y2={height} />
-                    <text style={{textAnchor: 'start', fontSize:'10px' }} y={height+3} transform={`rotate(75, 0, ${height+3})`}>
-                        {tickValue}
-                    </text>
-                </g>
-            )}
-        </g>
-    }
+    }else {
+    return <g></g>
 }
+}
+
+export default XAxis

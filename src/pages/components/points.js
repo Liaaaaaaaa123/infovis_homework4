@@ -1,77 +1,17 @@
-import React from "react";
 
-export function Points(props){
-    const {data, xScale, yScale, width, height, selectedPoint, onMouseEnter, onMouseOut} = props;
-    // const [selectedPoint, setSelectedPoint] = React.useState(null);
-    // const onMouseEnter = (d) => {
-    //     // console.log('mouse-on', d);
-    //     setSelectedPoint(d);
-    // };
-    // const onMouseOut = () => {
-    //     setSelectedPoint(null);
-    // };
-
-    const getColor = (d) => {
-        if (d.station == selectedPoint.station) {
-            return 'red'
-        } 
-        else {
-            return 'steelblue'
-            }
-    }
-    const getRadius = (d) => {
-        if (d.station == selectedPoint.station) {
-            return 10
-        }
-        else {
-            return 5
-            }    
-    }
-
-    if (selectedPoint === null){
+function Points(props) {
+    const {data, xScale, yScale, height, width} = props;
+    //Note: 
+    //the if(data){...} means when data is not null, the component will return the points; otherwise, it returns <g></g>
+    //we use the if ... else ... in this place so that the code can work with the SSR in Next.js;
+    if(data){
         return <g>
-            {data.map(d => {
-            return <circle key={d.station.replace('&','').replace(/\s/g, '')} 
-            cx={xScale(d.tripdurationS)} 
-            cy={yScale(d.tripdurationE)} 
-            r={5} 
-            fill={"steelblue"} 
-            stroke={"black"}
-            onMouseOver={(event)=>{
-                let point = d;
-                onMouseEnter(event, point);
-            }} onMouseOut={()=>onMouseOut()}
-            />
-        })}
-            </g>
-    }
-    else{
-        return <g>
-            {data.map(d => {
-            return <circle key={d.station.replace('&','').replace(/\s/g, '')} 
-            cx={xScale(d.tripdurationS)} 
-            cy={yScale(d.tripdurationE)} 
-            r={getRadius(d)} 
-            fill={getColor(d)} 
-            stroke={"black"}
-            onMouseOver={(event)=>{
-                let point = d;
-                onMouseEnter(event, point);
-            }} onMouseOut={()=>onMouseOut()}
-            />
-        })}
-         <rect x={0} y={0} width={width} height={height} fill={"yellow"} opacity={0.6}/>
-        {data.filter(d => d.station === selectedPoint.station).map( d => {
-            return <circle key={d.station} 
-            cx={xScale(d.tripdurationS)} cy={yScale(d.tripdurationE)} 
-            r={getRadius(d)} fill={getColor(d)} stroke={"black"}
-            onMouseOver={(event)=>{
-                let point = d;
-                onMouseEnter(event, point);
-            }} onMouseOut={()=>onMouseOut()}
-            />
-        })}
+        {/* task:1. remove this comments and put your code here */}
 
-            </g>
+        </g>
+    } else {
+        return <g></g>
     }
 }
+
+export default Points
