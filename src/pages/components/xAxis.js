@@ -23,14 +23,31 @@ function XAxis(props){
     //3. if typeof(xScale.domain()[0]) is a number, xScale is a linear scale; if it is a string, it is a scaleBand.
     
     if(xScale) {
-        return <g>
-        {/* //the if(xScale){...} means when xScale is not null, the component will return the x-axis; otherwise, it returns <g></g>
-        //we use the if ... else ... in this place so that the code can work with the SSR in Next.js;
-        //all your code should be put in this block. Remember to use typeof check if the xScale is linear or discrete. */}
-        </g>
-    }else {
-    return <g></g>
+        if (typeof xScale.domain()[0] === 'number') {
+            // Linear scale
+            const xAxis = d3.axisBottom(xScale);
+            
+            return (
+                <g transform={`translate(0, ${height})`}>
+                    <g ref={node => d3.select(node).call(xAxis)} />
+                    {axisLabel && <text x={width / 2} y={40} style={{ textAnchor: 'middle' }}>{axisLabel}</text>}
+                </g>
+            );
+        } else {
+            // Discrete scale (scaleBand)
+            const xAxis = d3.axisBottom(xScale);
+            
+            return (
+                <g transform={`translate(0, ${height})`}>
+                    <g ref={node => d3.select(node).call(xAxis)} />
+                    {axisLabel && <text x={width / 2} y={40} style={{ textAnchor: 'middle' }}>{axisLabel}</text>}
+                </g>
+            );
+        }
+    } else {
+        return <g />;
+    }
 }
-}
+
 
 export default XAxis
