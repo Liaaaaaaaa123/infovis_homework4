@@ -1,8 +1,8 @@
 import React from "react";
 import { max } from "d3";
-import { XAxis, YAxis } from "./axes";
-import { Scales } from "./scale";
-import { Bars } from './bars';
+import { XAxis } from "./components/Xaxis";
+import { YAxis } from "./components/Yaxis";
+import { Bars } from './components/bars';
 
 export function BarChart (props) {
     const {data, offsetX, offsetY, width, height, selectedPoint, onMouseEnter, onMouseOut} = props;
