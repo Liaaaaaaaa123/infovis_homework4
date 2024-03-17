@@ -1,23 +1,26 @@
-function Points(props) {
-    const { data, xScale, yScale, height, width } = props;
 
+import React from 'react';
+
+function Points({ data, xScale, yScale }) {
     if (data) {
         return (
             <g>
                 {data.map((d, i) => (
                     <circle
                         key={i}
-                        cx={xScale(d.x)}
-                        cy={yScale(d.y)}
-                        r={5} // radius of each point
-                        fill="steelblue" // color of each point
+                        cx={xScale(d.tripdurationS)}
+                        cy={yScale(d.tripdurationE)}
+                        r={5} // Radius of the points
+                        fill="steelblue" // Fill color of the points
+                        stroke="black" // Stroke color around the points
+                        strokeWidth="1" // Stroke width around the points
                     />
                 ))}
             </g>
         );
     } else {
-        return <g />;
+        return <g></g>; // Return an empty group element if there is no data
     }
 }
 
-export default Points;
+export default Points; // Export the component for use in other files

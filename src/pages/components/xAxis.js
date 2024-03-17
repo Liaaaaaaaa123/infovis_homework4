@@ -15,39 +15,35 @@
 
 
 
-function XAxis(props){
-    const { xScale, height, width, axisLable } = props;
-    //Note:
-    //1. XAxis works for two cases: the xScale is linear (i.e., scatter plot) and the xScalse is discrete (i.e., bar chart)
-    //2. you can use typeof(xScale.domain()[0]) to decide the return value
-    //3. if typeof(xScale.domain()[0]) is a number, xScale is a linear scale; if it is a string, it is a scaleBand.
-    
-    if(xScale) {
-        if (typeof xScale.domain()[0] === 'number') {
-            // Linear scale
-            const xAxis = d3.axisBottom(xScale);
-            
-            return (
-                <g transform={`translate(0, ${height})`}>
-                    <g ref={node => d3.select(node).call(xAxis)} />
-                    {axisLabel && <text x={width / 2} y={40} style={{ textAnchor: 'middle' }}>{axisLabel}</text>}
-                </g>
-            );
-        } else {
-            // Discrete scale (scaleBand)
-            const xAxis = d3.axisBottom(xScale);
-            
-            return (
-                <g transform={`translate(0, ${height})`}>
-                    <g ref={node => d3.select(node).call(xAxis)} />
-                    {axisLabel && <text x={width / 2} y={40} style={{ textAnchor: 'middle' }}>{axisLabel}</text>}
-                </g>
-            );
-        }
-    } else {
-        return <g />;
-    }
-}
+import React, { useEffect, useRef } from 'react';
+import * as d3 from 'd3';
 
+function XAxis({ xScale, height, width, axisLabel }) {
+    const axisRef = useRef();
+
+    useEffect(() => {
+        // Decide the axis based on the scale type
+        const xAxisGenerator = d3.axisBottom(xScale);
+        
+        // Modify the font size of ticks
+        xAxisGenerator.tickFormat(d => d.toString()).tickSizeOuter(0);
+
+        d3.select(axisRef.current).call(xAxisGenerator)
+    }, [xScale, width, axisLabel]);
+
+    if (xScale){
+        return (
+            <g ref={axisRef} transform={`translate(0,${height})`}>
+                <text
+                    style={{textAnchor: 'end', fontSize: '15px', fill: 'black'}}
+                    transform={`translate(550, -10)`}>
+                    {axisLabel}
+                </text>
+            </g>
+        );
+    }else{
+        return<g></g>
+    }
+    }
 
 export default XAxis;
